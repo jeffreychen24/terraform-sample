@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"nginx","Source":"./modules/nginx","Dir":"modules/nginx"},{"Key":"nginx.redis","Source":"./redis","Dir":"modules/nginx/redis"}]}

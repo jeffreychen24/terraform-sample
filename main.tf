@@ -15,6 +15,12 @@ provider "helm" {
   }
 }
 
+module "nginx" {
+  source             = "./modules/nginx"
+  nginx_enabled      = var.nginx_enabled
+  helm_chart_version = var.helm_chart_version
+}
+
 resource "helm_release" "nginx" {
   count      = var.nginx_enabled ? 1 : 0
   name       = "nginx-sample"
@@ -27,5 +33,26 @@ resource "helm_release" "nginx" {
   set {
     name  = "service.type"
     value = "ClusterIP"
+  }
+
+  depends_on = [
+    helm_release.redis
+  ]
+}
+
+resource "helm_release" "redis" {
+  name       = "redis-sample"
+  repository = "https://charts.bitnami.com/bitnami"
+  chart      = "redis"
+  version    = var.nginx_enabled ? "18.1.2"  : "18.0.0"
+
+  set {
+    name  = "architecture"
+    value = "standalone"
+  }
+
+  set {
+    name  = "auth.enabled"
+    value = "false"
   }
 }

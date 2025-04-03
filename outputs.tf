@@ -1,3 +1,7 @@
 output "nginx_service" {
-  value = var.nginx_enabled ? helm_release.nginx[0].name : "Nginx not installed"
+  value = module.nginx.nginx_service
+}
+
+output "redis_service" {
+  value = module.nginx.redis_service
 }
